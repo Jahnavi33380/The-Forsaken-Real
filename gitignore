@@ -1,5 +1,4 @@
-# ---- Unity .gitignore ----
-# Folders Unity regenerates
+# === Unity ===
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -7,82 +6,27 @@
 [Bb]uilds/
 [Ll]ogs/
 UserSettings/
-[Mm]emoryCaptures/
 [Bb]ees/
-sysinfo.txt
+MemoryCaptures/
+Library/
+# Packages cache lives inside Library; ignore via Library/ but keep the manifest/lock
+!Packages/
+!ProjectSettings/
+!Assets/
 
-# Crash and debug
-*.stacktrace
-
-# IDE/Editor generated
+# IDE
 .vscode/
 .idea/
-*.code-workspace
-*.DotSettings.user
-.vs/
-
-# Auto-generated project files
-*.csproj
 *.sln
-*.suo
-*.tmp
+*.csproj
+*.pidb
 *.user
 *.userprefs
-*.pidb
-*.booproj
-*.svd
-*.pdb
-*.mdb
 *.opendb
 *.VC.db
 
-# OS junk
+# Crash/Reports
+*.stacktrace
+
+# OS
 .DS_Store
-Thumbs.db
-
-# Unity Asset artifacts
-Assets/AssetStoreTools*
-Assets/StreamingAssets/aa/*
-!Assets/StreamingAssets/.gitkeep
-
-# TextMeshPro auto-generated (keep your source .ttf/.otf)
-Assets/TextMesh Pro/*.asset
-
-# Addressables build path (default)
-Assets/AddressableAssetsData/Windows/*
-Assets/AddressableAssetsData/Android/*
-Assets/AddressableAssetsData/iOS/*
-Assets/AddressableAssetsData/WebGL/*
-!Assets/AddressableAssetsData/*/addressables_content_state.bin
-
-# Lightmap & GI cache (if checked out of Library)
-# Uncomment if you ever export these outside Library
-# Assets/**/Lightmap-*
-# Assets/**/LightingData.asset
-
-# Build artifacts
-*.apk
-*.aab
-*.ipa
-*.app
-*.exe
-*.dll
-*.dylib
-
-# Unity Collaborate / Plastic SCM leftovers
-.collabignore
-PlasticSCM/
-
-# JetBrains Rider plugin cache
-*.iml
-
-# Keep core project folders tracked
-!Assets/
-!ProjectSettings/
-!Packages/
-
-# Optional: Ignore local test results, recordings, etc.
-/Recordings/
-/TestResults/
-
-# End of file
