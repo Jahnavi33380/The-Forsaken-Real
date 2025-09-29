@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public float mouseSensitivity = 2f;
 
     [Header("Animation")]
-    public Animator animator; // <- drag your Animator here in Inspector
+    public Animator animator;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked; // lock mouse
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -33,13 +33,12 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-        float moveX = Input.GetAxis("Horizontal"); // A/D
-        float moveZ = Input.GetAxis("Vertical");   // W/S
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         controller.Move(move * speed * Time.deltaTime);
 
-        // --- Animation parameter update ---
         float currentSpeed = new Vector3(controller.velocity.x, 0, controller.velocity.z).magnitude;
         animator.SetFloat("Speed", currentSpeed);
 
@@ -51,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && controller.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            animator.SetTrigger("Jump"); // <- add jump animation later
+            // animator.SetTrigger("Jump");
         }
 
         velocity.y += gravity * Time.deltaTime;

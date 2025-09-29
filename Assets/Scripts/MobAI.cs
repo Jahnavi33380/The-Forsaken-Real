@@ -4,9 +4,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class MobAI : MonoBehaviour
 {
-    public Transform target;           // the player
-    public float chaseRange = 10f;     // distance to start chasing
-    public float attackRange = 2f;     // distance to attack
+    public Transform target;           
+    public float chaseRange = 10f;    
+    public float attackRange = 2f;     
     public float attackCooldown = 1.5f;
 
     private NavMeshAgent agent;
@@ -16,7 +16,7 @@ public class MobAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>(); // assumes Animator is on child (model)
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -27,18 +27,16 @@ public class MobAI : MonoBehaviour
 
         if (distance <= attackRange)
         {
-            // stop and attack
             agent.isStopped = true;
             animator.SetFloat("Speed", 0f);
             if (Time.time > lastAttackTime + attackCooldown)
             {
-                animator.SetTrigger("Attack"); // you’ll add attack anim later
+                animator.SetTrigger("Attack");
                 lastAttackTime = Time.time;
             }
         }
         else
         {
-            // always chase
             agent.isStopped = false;
             agent.SetDestination(target.position);
             animator.SetFloat("Speed", agent.velocity.magnitude);
