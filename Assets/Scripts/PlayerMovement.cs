@@ -1,71 +1,103 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    public float speed = 5f;
-    public float jumpHeight = 1.5f;
-    public float gravity = -9.81f;
+    public Camera playerCamera;
+    public float walkSpeed = 1f;
+    public float runSpeed = 3f;
+    public float jumpPower = 0.5f;
+    public float gravity = 10f;
+    public float lookSpeed = 2f;
+    public float lookXLimit = 45f;
+    public float defaultHeight = 2f;
+    public float crouchHeight = 1f;
+    public float crouchSpeed = 3f;
 
-    [Header("Camera Settings")]
-    public Transform cameraTransform;
-    public float mouseSensitivity = 2f;
+    private Vector3 moveDirection = Vector3.zero;
+    private float rotationX = 0;
+    private CharacterController characterController;
 
-    [Header("Animation")]
-    public Animator animator;
-
-    private CharacterController controller;
-    private Vector3 velocity;
-    private float xRotation = 0f;
+    private bool canMove = true;
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
-        HandleMovement();
-        HandleLook();
-    }
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        Vector3 right = transform.TransformDirection(Vector3.right);
 
-    void HandleMovement()
-    {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
+        bool isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        controller.Move(move * speed * Time.deltaTime);
+        // preserve vertical movement (jump/gravity)
+        float movementDirectionY = moveDirection.y;
 
-        float currentSpeed = new Vector3(controller.velocity.x, 0, controller.velocity.z).magnitude;
-        animator.SetFloat("Speed", currentSpeed);
+        // combine input with speed
+        float moveForward = Input.GetAxis("Vertical");   // W/S
+        float moveRight = Input.GetAxis("Horizontal");   // A/D
 
-        if (controller.isGrounded && velocity.y < 0)
+        float curSpeedForward = canMove ? (isRunning ? runSpeed : walkSpeed) * moveForward : 0;
+        float curSpeedRight = canMove ? (isRunning ? runSpeed : walkSpeed) * moveRight : 0;
+
+        // final movement vector
+        moveDirection = (forward * curSpeedForward) + (right * curSpeedRight);
+
+        // restore Y (jump / gravity)
+        moveDirection.y = movementDirectionY;
+
+        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
-            velocity.y = -2f;
+            moveDirection.y = jumpPower;
+        }
+        else
+        {
+            moveDirection.y = movementDirectionY;
         }
 
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        if (characterController.isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            // animator.SetTrigger("Jump");
+            if (Input.GetButton("Jump") && canMove)
+            {
+                moveDirection.y = jumpPower;
+            }
+        }
+        else
+        {
+            moveDirection.y -= gravity * Time.deltaTime;
         }
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
-    }
+        if (Input.GetKey(KeyCode.R) && canMove)
+        {
+            characterController.height = crouchHeight;
+            walkSpeed = crouchSpeed;
+            runSpeed = crouchSpeed;
+        }
+        else
+        {
+            characterController.height = defaultHeight;
+            walkSpeed = 1f;
+            runSpeed = 3f;
+        }
 
-    void HandleLook()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        characterController.Move(moveDirection * Time.deltaTime);
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -80f, 80f);
+        if (canMove)
+        {
+            // Vertical look (pitch) for the camera
+            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
-        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+            // Horizontal look (yaw) for the player
+            float rotationY = Input.GetAxis("Mouse X") * lookSpeed;
+            transform.rotation *= Quaternion.Euler(0, rotationY, 0);
+        }
     }
 }
