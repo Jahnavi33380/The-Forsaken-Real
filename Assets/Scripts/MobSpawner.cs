@@ -174,10 +174,6 @@ public class MobSpawner : MonoBehaviour
         {
         }
         
-        MobHealth mobHealth = mob.GetComponent<MobHealth>();
-        if (mobHealth != null)
-        {
-        }
     }
     
     public void StartSpawning()

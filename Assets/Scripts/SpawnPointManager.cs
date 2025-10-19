@@ -248,12 +248,6 @@ public class SpawnPointManager : MonoBehaviour
             }
         }
         
-        // Set up MobHealth if it exists
-        MobHealth mobHealth = mob.GetComponent<MobHealth>();
-        if (mobHealth != null)
-        {
-            // Could modify health based on spawn type
-        }
         
         // Add callback for when mob dies
         StartCoroutine(TrackMobLifecycle(mob, spawnPoint));
