@@ -13,7 +13,6 @@ public class MobSpawner : MonoBehaviour
     
     [Header("Advanced Settings")]
     public bool useAdvancedSpawning = true;
-    public SpawnPointManager spawnPointManager;
     public bool spawnNearPlayer = true;
     public float playerDetectionRange = 30f;
     public float minDistanceFromPlayer = 5f;
@@ -36,14 +35,7 @@ public class MobSpawner : MonoBehaviour
         if (playerObj != null)
             player = playerObj.transform;
         
-        if (spawnPointManager == null)
-            spawnPointManager = FindObjectOfType<SpawnPointManager>();
-        
-        if (useAdvancedSpawning && spawnPointManager != null)
-        {
-            Debug.Log("Using advanced spawning system via SpawnPointManager");
-            return;
-        }
+
         
         if (useWaves)
         {
