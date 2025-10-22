@@ -9,6 +9,7 @@ UserSettings/
 [Bb]ees/
 MemoryCaptures/
 Library/
+Assets/_Recovery/
 # Packages cache lives inside Library; ignore via Library/ but keep the manifest/lock
 !Packages/
 !ProjectSettings/
