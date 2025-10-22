@@ -19,13 +19,14 @@ public class CameraLogicBlock : MonoBehaviour
 
     void LateUpdate()
     {
-        yaw   += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+        yaw += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         pitch -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-        pitch  = Mathf.Clamp(pitch, mP, maxP);
+        pitch = Mathf.Clamp(pitch, mP, maxP);
 
         Quaternion rot = Quaternion.Euler(pitch, yaw, 0f);
         Vector3 desiredPos = tget.position + rot * offset;
         transform.position = desiredPos;
         transform.LookAt(tget.position + Vector3.up * 1.2f);
     }
+
 }
