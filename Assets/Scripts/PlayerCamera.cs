@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class camLookat : MonoBehaviour
+public class PlayerCamera : MonoBehaviour
 {
     public Transform player, cameraTrans;
 
