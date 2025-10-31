@@ -16,7 +16,6 @@ public class PlayerHealth : MonoBehaviour
     public Vector3 respawnPosition;
     
     private bool isDead = false;
-    // private PlayerMovement playerMovement; // Removed - no longer needed
     
     public System.Action<int, int> OnHealthChanged;
     public System.Action OnPlayerDeath;
@@ -25,7 +24,6 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        // playerMovement = GetComponent<PlayerMovement>(); // Removed - no longer needed
         
         if (respawnPosition == Vector3.zero)
             respawnPosition = transform.position;
@@ -71,8 +69,6 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
         Debug.Log("Player died!");
         
-        // if (playerMovement != null)
-        //     playerMovement.enabled = false;
         
         OnPlayerDeath?.Invoke();
         
@@ -86,8 +82,6 @@ public class PlayerHealth : MonoBehaviour
         
         transform.position = respawnPosition;
         
-        // if (playerMovement != null)
-        //     playerMovement.enabled = true;
         
         UpdateHealthUI();
         
