@@ -18,6 +18,12 @@ public class Fireball : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Fireball hit: " + other.name);
+        if (other.CompareTag("Enemy"))
+        {
+            Destroy(other.gameObject);
+        }
+
         Destroy(gameObject);
     }
 }

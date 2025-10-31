@@ -4,7 +4,7 @@ public class PlayerAttacks : MonoBehaviour
 {
     private Animator anim;
 
-    // Time allowed between clicks before combo resets
+
     float maxComboDelay = 0.8f;
 
     public static int noOfClicks = 0;
@@ -19,7 +19,6 @@ public class PlayerAttacks : MonoBehaviour
     {
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        // Reset attack bools slightly earlier in animation
         if (stateInfo.normalizedTime > 0.25f && stateInfo.IsName("LightAttack1"))
         {
             anim.SetBool("LightAttack1", false);
@@ -38,7 +37,6 @@ public class PlayerAttacks : MonoBehaviour
             noOfClicks = 0;
         }
 
-        // Reset combo if too much time passed since last click
         if (Time.time - lastClickedTime > maxComboDelay)
         {
             noOfClicks = 0;
