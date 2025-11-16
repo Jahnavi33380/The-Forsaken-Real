@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        Debug.Log("PlayerHealth.TakeDamage hit for: " + amount);
         currentHealth -= amount;
         hud.SetHealth(hMax, currentHealth);
 
